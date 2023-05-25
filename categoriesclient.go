@@ -1,4 +1,3 @@
-// sky-categories/pkg/clientlib/categoriesclient/categoriesclient.go
 package categoriesclient
 
 import (
