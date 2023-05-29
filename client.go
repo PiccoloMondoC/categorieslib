@@ -1,3 +1,4 @@
+// sky-categories/pkg/clientlib/categoriesclient/client.go
 package categoriesclient
 
 import (
@@ -14,6 +15,8 @@ import (
 type Client struct {
 	BaseURL    string
 	HttpClient *http.Client
+	Token      string
+	ApiKey     string
 }
 
 // Category represents the structure of a category.
@@ -68,7 +71,7 @@ type GetSkillIDsForCategoryResponse struct {
 	SkillIDs []uuid.UUID `json:"skill_ids"`
 }
 
-func NewClient(baseURL string, httpClient ...*http.Client) *Client {
+func NewClient(baseURL string, token string, apiKey string, httpClient ...*http.Client) *Client {
 	var client *http.Client
 	if len(httpClient) > 0 {
 		client = httpClient[0]
@@ -81,6 +84,8 @@ func NewClient(baseURL string, httpClient ...*http.Client) *Client {
 	return &Client{
 		BaseURL:    baseURL,
 		HttpClient: client,
+		Token:      token,
+		ApiKey:     apiKey,
 	}
 }
 
@@ -102,6 +107,7 @@ func (c *Client) CreateCategory(cat *CreateCategoryRequest, authToken string) (*
 	// Set the request headers.
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", authToken)
+	req.Header.Set("X-API-Key", c.ApiKey)
 
 	// Send the request.
 	resp, err := c.HttpClient.Do(req)
@@ -136,8 +142,8 @@ func (c *Client) GetCategory(categoryID uuid.UUID, authToken string) (*Category,
 	}
 
 	// Set the request headers.
-	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", authToken)
+	req.Header.Set("X-API-Key", c.ApiKey)
 
 	// Send the request.
 	resp, err := c.HttpClient.Do(req)
@@ -184,6 +190,7 @@ func (c *Client) AssociateCategoryWithProject(categoryID, projectID uuid.UUID, a
 	// Set the request headers.
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", authToken)
+	req.Header.Set("X-API-Key", c.ApiKey)
 
 	// Send the request.
 	resp, err := c.HttpClient.Do(req)
@@ -224,6 +231,7 @@ func (c *Client) DisassociateCategoryFromProject(categoryID, projectID uuid.UUID
 	// Set the request headers.
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", authToken)
+	req.Header.Set("X-API-Key", c.ApiKey)
 
 	// Send the request.
 	resp, err := c.HttpClient.Do(req)
@@ -252,8 +260,8 @@ func (c *Client) GetCategoriesForProject(projectID uuid.UUID, authToken string) 
 	}
 
 	// Set the request headers.
-	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", authToken)
+	req.Header.Set("X-API-Key", c.ApiKey)
 
 	// Send the request.
 	resp, err := c.HttpClient.Do(req)
@@ -289,8 +297,8 @@ func (c *Client) GetProjectIDsForCategory(categoryID uuid.UUID, authToken string
 	}
 
 	// Set the request headers.
-	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", authToken)
+	req.Header.Set("X-API-Key", c.ApiKey)
 
 	// Send the request.
 	resp, err := c.HttpClient.Do(req)
@@ -334,6 +342,7 @@ func (c *Client) AssociateCategoryWithSkill(request AssociateCategoryWithSkillRe
 	// Set the request headers.
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", authToken)
+	req.Header.Set("X-API-Key", c.ApiKey)
 
 	// Send the request.
 	resp, err := c.HttpClient.Do(req)
@@ -370,6 +379,7 @@ func (c *Client) DisassociateCategoryFromSkill(request DisassociateCategoryFromS
 	// Set the request headers.
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", authToken)
+	req.Header.Set("X-API-Key", c.ApiKey)
 
 	// Send the request.
 	resp, err := c.HttpClient.Do(req)
@@ -401,6 +411,7 @@ func (c *Client) GetCategoriesForSkill(request GetCategoriesForSkillRequest, aut
 
 	// Set the request headers.
 	req.Header.Set("Authorization", authToken)
+	req.Header.Set("X-API-Key", c.ApiKey)
 
 	// Send the request.
 	resp, err := c.HttpClient.Do(req)
@@ -439,6 +450,7 @@ func (c *Client) GetSkillIDsForCategory(request GetSkillIDsForCategoryRequest, a
 
 	// Set the request headers.
 	req.Header.Set("Authorization", authToken)
+	req.Header.Set("X-API-Key", c.ApiKey)
 
 	// Send the request.
 	resp, err := c.HttpClient.Do(req)
