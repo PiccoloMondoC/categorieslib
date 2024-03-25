@@ -1,4 +1,4 @@
-package categoriesclient
+package categorieslib
 
 import (
 	"bytes"
